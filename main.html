@@ -5,6 +5,8 @@
     <title>QWOP-Throwback</title>
     <link rel="stylesheet" href="main.css">
     <script type="text/javascript">
+      var canvas;
+      var ctx;
       var then;
       var now;
       class GObject{
@@ -16,40 +18,49 @@
           this.angle = angle;
           this.xSpeed = 0;
           this.ySpeed = 0;
+          this.rotSpeed = 0;
         }
+        accelerate(xAcc, yAcc, rotAcc){
+          this.xSpeed += xAcc * Game.tSLF;
+          this.ySpeed += yAcc * Game.tSLF;
+          this.rotSpeed += rotAcc * Game.tSLF;
+        }
+        updatePos(){
+          this.x += this.xSpeed * Game.tSLF;
+          this.y += this.ySpeed * Game.tSLF;
+          this.angle += this.rotSpeed * Game.tSLF;
+        }
+
       }
       class GColorObject extends GObject{
         constructor(width=10, height=10, x=0, y=0, angle=0, color='red'){
-          this.width = width;
-          this.height = height;
-          this.x = x;
-          this.y = y;
-          this.angle = angle;
-          this.xSpeed = 0;
-          this.ySpeed = 0;
+          super(width, height, x, y, angle)
           this.color = color;
         }
         render(){
-          ctx.fillStyle = color;
+          ctx.fillStyle = this.color;
           ctx.fillRect(this.x, this.y, this.width, this.height);
         }
       }
-      var redSquare = new GColorObject(20, 20, 10, 10, 0, 'blue');
-      var Game = new Object();
-      Game = {
+      var blueSquare = new GColorObject(20, 20, 10, 10, 0, 'blue');
+
+      var Game = {
         //time since last frame
         tSLF:0,
+        gravity:10, //gravitational acceleration in px/sec
         update: function(){
-
+          blueSquare.accelerate(0, this.gravity, 0);
+          blueSquare.updatePos();
         },
         render: function(){
-          redSquare.render();
+          ctx.clearRect(0,0,canvas.width,canvas.height);
+          blueSquare.render();
         }
 
       }
       function init(){
-        var canvas = document.getElementById('gameArea');
-        var ctx = canvas.getContext('2d');
+        canvas = document.getElementById('gameArea');
+        ctx = canvas.getContext('2d');
         then = performance.now();
         main();
       }
@@ -57,7 +68,8 @@
         window.requestAnimationFrame( main );
         //time at loop start
         now = performance.now();
-        Game.tSLF = now - then;
+        Game.tSLF = (now - then)/1000;
+        console.log(Game.tSLF);
         Game.update();
         Game.render();
         then = now;
