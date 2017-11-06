@@ -56,7 +56,7 @@
         gravity:10, //gravitational acceleration in px/sec
         blueSquare: new GColorObject(20, 20, 10, 10, 0, 'blue'),
         update: function(){
-          this.blueSquare.accelerate(0, this.gravity, 0);
+          this.blueSquare.accelerate(0, this.gravity, Math.PI/8);
           this.blueSquare.updatePos();
         },
         render: function(){
@@ -69,8 +69,7 @@
         canvas = document.getElementById('gameArea');
         ctx = canvas.getContext('2d');
         then = performance.now();
-        Game.blueSquare.xSpeed = 10;
-        Game.blueSquare.rotSpeed = Math.PI/6;
+        Game.blueSquare.xSpeed = 30;
         main();
       }
       function main() {
