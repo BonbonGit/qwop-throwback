@@ -7,8 +7,6 @@
     <script type="text/javascript">
       var canvas;
       var ctx;
-      var then;
-      var now;
       class GObject{
         constructor(width=10, height=10, x=0, y=0, angle=0){
           this.width = width;
@@ -51,41 +49,68 @@
 
 
       var Game = {
-        //time since last frame
-        tSLF:0,
+
+        now: 0,
+        then: 0,
+        tSLF:0,//time since last frame
+
         gravity:10, //gravitational acceleration in px/sec
-        blueSquare: new GColorObject(20, 20, 10, 10, 0, 'blue'),
+        blueSquare: new GColorObject(20, 20, 10, 750, 0, 'blue'),
+        greenSquare: new GColorObject(20, 20, 1190, 750, 0, 'green'),
+        //wall: new GColorObject(40, 600, 600, 400, 0, 'red'),
         update: function(){
-          this.blueSquare.accelerate(0, this.gravity, Math.PI/8);
+          this.blueSquare.accelerate(0, this.gravity, Math.PI/12);
           this.blueSquare.updatePos();
+          this.greenSquare.accelerate(0, this.gravity, -Math.PI/12);
+          this.greenSquare.updatePos();
+          this.contact();
         },
         render: function(){
           ctx.clearRect(0,0,canvas.width,canvas.height);
           this.blueSquare.render();
+          this.greenSquare.render();
+          //this.wall.render();
+        },
+        contact: function(){
+          /*if(Math.abs(this.greenSquare.x-this.wall.x) <= (this.greenSquare.width+this.wall.width)/2){
+            this.greenSquare.xSpeed = -this.greenSquare.xSpeed
+          }
+          if(Math.abs(this.blueSquare.x-this.wall.x) <= (this.blueSquare.width+this.wall.width)/2){
+            this.blueSquare.xSpeed = -this.blueSquare.xSpeed
+          }*/
+          if(Math.abs(this.blueSquare.x-this.greenSquare.x) <= (this.blueSquare.width+this.greenSquare.width)/2){
+            this.blueSquare.xSpeed = -this.blueSquare.xSpeed;
+            this.greenSquare.xSpeed = -this.greenSquare.xSpeed;
+          }
         }
-
       }
       function init(){
         canvas = document.getElementById('gameArea');
         ctx = canvas.getContext('2d');
-        then = performance.now();
-        Game.blueSquare.xSpeed = 30;
+        Game.then = performance.now();
+        Game.blueSquare.xSpeed = 60;
+        Game.blueSquare.ySpeed = -100;
+        Game.greenSquare.xSpeed = -60;
+        Game.greenSquare.ySpeed = -100;
         main();
       }
       function main() {
         window.requestAnimationFrame( main );
         //time at loop start
-        now = performance.now();
-        Game.tSLF = (now - then)/1000;
-        console.log(Game.tSLF);
-        Game.update();
-        Game.render();
-        then = now;
+        Game.now = performance.now();
+        Game.tSLF = (Game.now - Game.then)/1000;
+
+        if(Game.tSLF > 16/1000){ //Aprox 60FPS
+          console.log(1/Game.tSLF);
+          Game.update();
+          Game.render();
+          Game.then = Game.now;
+        }
       }
 
     </script>
   </head>
   <body onload="init()">
-    <canvas id="gameArea" height="400" width="800"></canvas>
+    <canvas id="gameArea" height="800" width="1200"></canvas>
   </body>
 </html>
