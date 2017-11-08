@@ -29,7 +29,6 @@
           this.angle = angle;
           //The object max width/height (due to angle) define both hitBox limits. We keep (max width/height)² because we compare it to another "²" value during collisions checks
           this.hitBox = Math.sqrt(Math.pow(this.width/2,2)+Math.pow(this.height/2,2));
-          console.log(this.hitBox);
           this.xSpeed = 0;
           this.ySpeed = 0;
           this.rotSpeed = 0;
@@ -72,9 +71,9 @@
         tSLF:0,//time since last frame
 
         gravity:10, //gravitational acceleration in px/sec
+
         blueSquare: new ColorGO(20, 20, 200, 750, Math.PI/4, 'blue'),
-        greenSquare: new ColorGO(20, 20, 1000, 750, Math.PI/4, 'green'),
-        //wall: new ColorGO(40, 600, 600, 400, 0, 'red'),
+        greenSquare: new ColorGO(20, 20, 1000, 740, Math.PI/4, 'green'),
         update: function(){
           this.contact();
           this.blueSquare.accelerate(0, 0, 0);
@@ -87,22 +86,10 @@
           ctx.clearRect(0,0,canvas.width,canvas.height);
           this.blueSquare.render();
           this.greenSquare.render();
-          //this.wall.render();
         },
         contact: function(){
-          /*if(Math.abs(this.greenSquare.x-this.wall.x) <= (this.greenSquare.width+this.wall.width)/2){
-            this.greenSquare.xSpeed = -this.greenSquare.xSpeed
-          }
-          if(Math.abs(this.blueSquare.x-this.wall.x) <= (this.blueSquare.width+this.wall.width)/2){
-            this.blueSquare.xSpeed = -this.blueSquare.xSpeed
-          }*/
-          this.collision(this.blueSquare, this.greenSquare);
 
-          /*if(Math.abs(this.blueSquare.x-this.greenSquare.x) <= (this.blueSquare.hitBox+this.greenSquare.hitBox)){
-            console.log(Math.abs(this.blueSquare.x-this.greenSquare.x));
-            this.blueSquare.xSpeed = -this.blueSquare.xSpeed;
-            this.greenSquare.xSpeed = -this.greenSquare.xSpeed;
-          }*/
+          this.collision(this.blueSquare, this.greenSquare);
         },
         collision: function(a, b){
           let xDist = a.x-b.x;
@@ -125,10 +112,10 @@
         canvas = document.getElementById('gameArea');
         ctx = canvas.getContext('2d');
         Game.then = performance.now();
-        Game.blueSquare.xSpeed = 400;
-        Game.blueSquare.ySpeed = -200;
-        Game.greenSquare.xSpeed = -400;
-        Game.greenSquare.ySpeed = -200;
+        Game.blueSquare.xSpeed = 100;
+        Game.blueSquare.ySpeed = -100;
+        Game.greenSquare.xSpeed = -100;
+        Game.greenSquare.ySpeed = -100;
         main();
       }
       function main() {
