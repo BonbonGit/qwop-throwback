@@ -28,7 +28,7 @@
           this.y = y;
           this.angle = angle;
           //The object max width/height (due to angle) define both hitBox limits. We keep (max width/height)² because we compare it to another "²" value during collisions checks
-          this.hitBox = Math.pow(this.width/2,2)+Math.pow(this.height/2,2);
+          this.hitBox = Math.sqrt(Math.pow(this.width/2,2)+Math.pow(this.height/2,2));
           console.log(this.hitBox);
           this.xSpeed = 0;
           this.ySpeed = 0;
@@ -52,14 +52,15 @@
           this.color = color;
         }
         render(){
-          ctx.fillStyle = this.color;
+          if(!(this.x > canvas.width+this.hitBox || this.x < -this.hitBox || this.y > canvas.height+this.hitBox || this.y < -this.hitBox)){
+            ctx.fillStyle = this.color;
 
-          ctx.save();
-            ctx.translate(this.x, this.y);
-            ctx.rotate(this.angle);
-            ctx.fillRect(-this.width/2, -this.height/2, this.width, this.height);
-          ctx.restore();
-
+            ctx.save();
+              ctx.translate(this.x, this.y);
+              ctx.rotate(this.angle);
+              ctx.fillRect(-this.width/2, -this.height/2, this.width, this.height);
+            ctx.restore();
+          }
         }
       }
 
@@ -70,9 +71,9 @@
         then: 0,
         tSLF:0,//time since last frame
 
-        gravity:20, //gravitational acceleration in px/sec
-        blueSquare: new ColorGO(20, 20, 10, 750, Math.PI/4, 'blue'),
-        greenSquare: new ColorGO(20, 20, 1190, 745, Math.PI/4, 'green'),
+        gravity:10, //gravitational acceleration in px/sec
+        blueSquare: new ColorGO(20, 20, 200, 750, Math.PI/4, 'blue'),
+        greenSquare: new ColorGO(20, 20, 1000, 750, Math.PI/4, 'green'),
         //wall: new ColorGO(40, 600, 600, 400, 0, 'red'),
         update: function(){
           this.contact();
@@ -108,21 +109,15 @@
           let yDist = b.y-a.y;
           let xDistP2 = Math.pow(xDist,2)
           let yDistP2 = Math.pow(yDist,2)
-          if(xDistP2+yDistP2 <= a.hitBox+b.hitBox){
+
+          if(Math.sqrt(xDistP2+yDistP2) <= a.hitBox+b.hitBox){
+            console.log(Math.sqrt(xDistP2+yDistP2));
             a.xSpeed = a.xSpeed - ((a.xSpeed-b.xSpeed)*xDist+(a.ySpeed-b.ySpeed)*yDist)/(xDistP2+yDistP2)*xDist
             a.ySpeed = a.ySpeed - ((a.xSpeed-b.xSpeed)*xDist+(a.ySpeed-b.ySpeed)*yDist)/(xDistP2+yDistP2)*yDist
-            console.log(xDist);
-            console.log(yDist);
             xDist = -xDist;
             yDist = -yDist;
-            console.log(xDist);
-            console.log(yDist);
-            console.log(b.xSpeed);
-            console.log(b.ySpeed);
             b.xSpeed = ((b.xSpeed-a.xSpeed)*xDist+(b.ySpeed-a.ySpeed)*yDist)/(xDistP2+yDistP2)*xDist - b.xSpeed;
             b.ySpeed = b.ySpeed - ((b.xSpeed-a.xSpeed)*xDist+(b.ySpeed-a.ySpeed)*yDist)/(xDistP2+yDistP2)*yDist;
-            console.log(b.xSpeed);
-            console.log(b.ySpeed);
           }
         }
       }
@@ -130,14 +125,14 @@
         canvas = document.getElementById('gameArea');
         ctx = canvas.getContext('2d');
         Game.then = performance.now();
-        Game.blueSquare.xSpeed = 200;
-        Game.blueSquare.ySpeed = -100;
-        Game.greenSquare.xSpeed = -200;
-        Game.greenSquare.ySpeed = -100;
+        Game.blueSquare.xSpeed = 400;
+        Game.blueSquare.ySpeed = -200;
+        Game.greenSquare.xSpeed = -400;
+        Game.greenSquare.ySpeed = -200;
         main();
       }
       function main() {
-        window.requestAnimationFrame( main );
+        window.requestAnimationFrame(main);
         //time at loop start
         Game.now = performance.now();
         Game.tSLF = (Game.now - Game.then)/1000;
