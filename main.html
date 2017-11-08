@@ -70,16 +70,17 @@
         then: 0,
         tSLF:0,//time since last frame
 
-        gravity:10, //gravitational acceleration in px/sec
+        gravity:20, //gravitational acceleration in px/sec
         blueSquare: new ColorGO(20, 20, 10, 750, Math.PI/4, 'blue'),
-        greenSquare: new ColorGO(20, 20, 1190, 750, Math.PI/4, 'green'),
+        greenSquare: new ColorGO(20, 20, 1190, 745, Math.PI/4, 'green'),
         //wall: new ColorGO(40, 600, 600, 400, 0, 'red'),
         update: function(){
+          this.contact();
           this.blueSquare.accelerate(0, 0, 0);
           this.blueSquare.updatePos();
           this.greenSquare.accelerate(0, 0, 0);
           this.greenSquare.updatePos();
-          this.contact();
+
         },
         render: function(){
           ctx.clearRect(0,0,canvas.width,canvas.height);
@@ -94,15 +95,8 @@
           if(Math.abs(this.blueSquare.x-this.wall.x) <= (this.blueSquare.width+this.wall.width)/2){
             this.blueSquare.xSpeed = -this.blueSquare.xSpeed
           }*/
-          let bg = this.collision(this.blueSquare, this.greenSquare);
-          let blueSpeed = Math.pow(this.blueSquare.xSpeed,2)+Math.pow(this.blueSquare.ySpeed,2);
-          let greenSpeed = Math.pow(this.greenSquare.xSpeed,2)+Math.pow(this.greenSquare.ySpeed,2);
-          if(bg[0]){
-            this.blueSquare.xSpeed = blueSpeed*bg[1];
-            this.greenSquare.xSpeed = greenSpeed*bg[1];
-            this.blueSquare.ySpeed = blueSpeed*bg[2];
-            this.greenSquare.ySpeed = greenSpeed*bg[2];
-          }
+          this.collision(this.blueSquare, this.greenSquare);
+
           /*if(Math.abs(this.blueSquare.x-this.greenSquare.x) <= (this.blueSquare.hitBox+this.greenSquare.hitBox)){
             console.log(Math.abs(this.blueSquare.x-this.greenSquare.x));
             this.blueSquare.xSpeed = -this.blueSquare.xSpeed;
@@ -110,27 +104,35 @@
           }*/
         },
         collision: function(a, b){
-          let prop = [];
-          if(Math.pow(a.x-b.x,2)+Math.pow(a.y-b.y,2) <= a.hitBox+b.hitBox){
-            //If a.x-b.x > 0 a is left to b
-            //If a.y-b.y > 0 a is down to b
-            //a.x-b.x+a.y-b.y = tot => PropX : ax-bx/(a.x-b.x+a.y-b.y)
-            let tot = a.x-b.x+a.y-b.y;
-            prop = [true, a.x-b.x/tot, a.y-b.y/tot]
-
-          } else{
-            prop = [false];
+          let xDist = a.x-b.x;
+          let yDist = b.y-a.y;
+          let xDistP2 = Math.pow(xDist,2)
+          let yDistP2 = Math.pow(yDist,2)
+          if(xDistP2+yDistP2 <= a.hitBox+b.hitBox){
+            a.xSpeed = a.xSpeed - ((a.xSpeed-b.xSpeed)*xDist+(a.ySpeed-b.ySpeed)*yDist)/(xDistP2+yDistP2)*xDist
+            a.ySpeed = a.ySpeed - ((a.xSpeed-b.xSpeed)*xDist+(a.ySpeed-b.ySpeed)*yDist)/(xDistP2+yDistP2)*yDist
+            console.log(xDist);
+            console.log(yDist);
+            xDist = -xDist;
+            yDist = -yDist;
+            console.log(xDist);
+            console.log(yDist);
+            console.log(b.xSpeed);
+            console.log(b.ySpeed);
+            b.xSpeed = ((b.xSpeed-a.xSpeed)*xDist+(b.ySpeed-a.ySpeed)*yDist)/(xDistP2+yDistP2)*xDist - b.xSpeed;
+            b.ySpeed = b.ySpeed - ((b.xSpeed-a.xSpeed)*xDist+(b.ySpeed-a.ySpeed)*yDist)/(xDistP2+yDistP2)*yDist;
+            console.log(b.xSpeed);
+            console.log(b.ySpeed);
           }
-          return prop;
         }
       }
       function init(){
         canvas = document.getElementById('gameArea');
         ctx = canvas.getContext('2d');
         Game.then = performance.now();
-        Game.blueSquare.xSpeed = 100;
+        Game.blueSquare.xSpeed = 200;
         Game.blueSquare.ySpeed = -100;
-        Game.greenSquare.xSpeed = -100;
+        Game.greenSquare.xSpeed = -200;
         Game.greenSquare.ySpeed = -100;
         main();
       }
