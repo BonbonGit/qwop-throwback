@@ -10,6 +10,15 @@ class staticGO {
     this.xHitBox = this.width/2
     this.yHitBox = this.height/2
   }
+  render(){
+    Game.ctx.fillStyle = this.color;
+
+    Game.ctx.save();
+      Game.ctx.translate(this.x, this.y);
+      Game.ctx.fillRect(0, 0, this.width, this.height);
+    Game.ctx.restore();
+
+  }
 }
 class GO{
   constructor(width=10, height=10, x=0, y=0, angle=0){
@@ -33,7 +42,7 @@ class GO{
   updatePos(){
     this.x += this.xSpeed * Game.tSLF;
     this.y += this.ySpeed * Game.tSLF;
-    this.angle += this.rotSpeed * Game.tSLF;
+    this.angle = (this.angle + this.rotSpeed * Game.tSLF)%(Math.PI);
   }
 
 }
@@ -43,7 +52,7 @@ class ColorGO extends GO{
     this.color = color;
   }
   render(){
-    if(!(this.x > Game.canvas.width+this.hitBox || this.x < -this.hitBox || this.y > Game.canvas.height+this.hitBox || this.y < -this.hitBox)){
+    //if(!(this.x > Game.canvas.width+this.hitBox || this.x < -this.hitBox || this.y > Game.canvas.height+this.hitBox || this.y < -this.hitBox)){
 
       Game.ctx.fillStyle = this.color;
 
@@ -52,7 +61,7 @@ class ColorGO extends GO{
         Game.ctx.rotate(this.angle);
         Game.ctx.fillRect(-this.width/2, -this.height/2, this.width, this.height);
       Game.ctx.restore();
-    }
+    //}
   }
 }
 class armGO{
@@ -67,31 +76,19 @@ class armGO{
     this.elbowSpeed = 0;
   }
   accelerate(shoulderAcc, elbowAcc){
-    let grav = Game.gravity/this.height/40
 
     this.shoulderSpeed += shoulderAcc;
     this.elbowSpeed += elbowAcc;
 
-
-    /*if(this.shoulderAng > Math.PI){
-      this.shoulderSpeed += grav*Math.sin(this.shoulderAng);
-    } else if(this.shoulderAng < Math.PI){
-      this.shoulderSpeed -= grav*Math.sin(this.shoulderAng);
+    if(this.shoulderSpeed > 0.2){
+      this.shoulderSpeed = 0.2;
+    } else if(this.shoulderSpeed < -0.2){
+      this.shoulderSpeed = -0.2;
     }
-    if(this.elbowAng+this.shoulderAng > Math.PI){
-      this.elbowSpeed += grav*Math.sin(this.elbowAng);
-    } else if(this.elbowAng+this.shoulderAng < Math.PI){
-      this.elbowSpeed -= grav*Math.sin(this.elbowAng);
-    }*/
-    if(this.shoulderSpeed > 0.09){
-      this.shoulderSpeed = 0.09;
-    } else if(this.shoulderSpeed < -0.09){
-      this.shoulderSpeed = -0.09;
-    }
-    if(this.elbowSpeed > 0.09){
-      this.elbowSpeed = 0.09;
-    } else if(this.elbowSpeed < -0.09){
-      this.elbowSpeed = -0.09;
+    if(this.elbowSpeed > 0.2){
+      this.elbowSpeed = 0.2;
+    } else if(this.elbowSpeed < -0.2){
+      this.elbowSpeed = -0.2;
     }
 
   }
@@ -116,10 +113,15 @@ class armGO{
       Game.ctx.save();
         Game.ctx.translate(this.x, this.y);
         Game.ctx.rotate(this.shoulderAng);
-        Game.ctx.fillRect(0, 0, this.width, this.height);
+        Game.ctx.fillRect(-this.width/2, 0, this.width, this.height);
         Game.ctx.translate(0, this.height);
         Game.ctx.rotate(this.elbowAng);
-        Game.ctx.fillRect(0, 0, this.width, this.height);
+        Game.ctx.fillRect(-this.width/2, 0, this.width, this.height);
+        if(!Game.releaseCan){
+          Game.ctx.fillStyle = "green";
+          Game.ctx.translate(0, this.height);
+          Game.ctx.fillRect(-Game.can.width/2, 0, Game.can.width, Game.can.height);
+        }
       Game.ctx.restore();
     }
   }
