@@ -1,4 +1,4 @@
-import {staticGO, GO, ColorGO, armGO} from './class/gameobjects.js';
+import {staticGO, GO, ColorGO, ImageGO, armGO} from './class/gameobjects.js';
 
 export var Game = {
 
@@ -14,7 +14,7 @@ export var Game = {
   //blueSquare: new ColorGO(20, 20, 200, 50, Math.PI/4, 'blue'),
   //greenSquare: new ColorGO(20, 20, 1000, 40, Math.PI/4, 'green'),
   ground: new staticGO(1400, 40, 0, 560),
-  can: new ColorGO(20, 40, 400, 400, 0, 'green'),
+  can: new ImageGO(20, 40, 400, 400, 0, "images/can.png"),
   releaseCan: false,
   arm: new armGO(),
   update: function(){
@@ -23,7 +23,7 @@ export var Game = {
     this.arm.accelerate(this.shoulderAcc, this.elbowAcc);
     this.arm.move();
     if(this.releaseCan){
-      this.can.accelerate(0, 10, 0.002);
+      this.can.accelerate(0, 0, 0);
       this.can.updatePos();
     }
 
@@ -47,7 +47,7 @@ export var Game = {
     if(this.can.y+this.can.hitBox >= this.ground.y){
       this.can.ySpeed = -0.9*this.can.ySpeed;
       this.can.y = this.ground.y - this.can.hitBox;
-      console.log(this.can.angle);
+      //console.log(this.can.angle);
       if(this.can.angle <= -Math.PI/2 && this.can.angle >= -Math.PI){
         this.can.rotSpeed = -0.9*this.can.rotSpeed;
         if(this.can.xSpeed <= 0){
@@ -89,8 +89,8 @@ export var Game = {
     let sIy = -shoulderInduced*Math.sin(thetaS);
     let eIx = -elbowInduced*Math.cos(thetaE);
     let eIy = elbowInduced*Math.sin(thetaE);
-    this.can.xSpeed = 80*(sIx+eIx);
-    this.can.ySpeed = 80*(sIy+eIy);
+    this.can.xSpeed = 40*(sIx+eIx);
+    this.can.ySpeed = 40*(sIy+eIy);
     this.can.x = this.arm.x - Math.sin(this.arm.shoulderAng)*this.arm.height - Math.sin(this.arm.elbowAng+this.arm.shoulderAng)*(this.arm.height+this.can.height/2);
     this.can.y = this.arm.y + Math.cos(this.arm.shoulderAng)*this.arm.height + Math.cos(this.arm.elbowAng+this.arm.shoulderAng)*(this.arm.height+this.can.height/2);
     this.can.angle = this.arm.shoulderAng+this.arm.elbowAng;
@@ -98,7 +98,7 @@ export var Game = {
   },
   updateGameArea: function(){
     this.ctx.restore();
-    this.ctx.clearRect(0, 0, 1400, 600)
+    this.ctx.clearRect(0, 0, 900, 600)
     this.ctx.save();
     if(this.can.y < this.canvas.height/2){
       this.ctx.translate(0, -this.can.y+this.canvas.height/2);
@@ -107,15 +107,13 @@ export var Game = {
       this.ctx.translate(-this.can.x+this.canvas.width/2, 0);
       this.ground.x = this.can.x - this.ground.width/2;
     }
-    console.log(this.can.x);
+    //console.log(this.can.x);
   },
   init: function(){
     events();
     this.shoulderAcc = 0;
     this.elbowAcc = 0;
     this.canvas = document.getElementById('gameArea');
-    this.canvas.width = 1400;
-    this.canvas.height = 600;
     this.ctx = this.canvas.getContext('2d');
     this.then = performance.now();
     main();

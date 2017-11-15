@@ -37,12 +37,12 @@ class GO{
   accelerate(xAcc, yAcc, rotAcc){
     this.xSpeed += xAcc * Game.tSLF;
     this.ySpeed += (yAcc + Game.gravity) * Game.tSLF;
-    this.rotSpeed += rotAcc * Game.tSLF;
+    this.rotSpeed += rotAcc * Game.tSLF * 0.9;
   }
   updatePos(){
     this.x += this.xSpeed * Game.tSLF;
     this.y += this.ySpeed * Game.tSLF;
-    this.angle = (this.angle + this.rotSpeed * Game.tSLF)%(Math.PI);
+    this.angle = (this.angle + this.rotSpeed * Game.tSLF)%(Math.PI*2);
   }
 
 }
@@ -60,6 +60,25 @@ class ColorGO extends GO{
         Game.ctx.translate(this.x, this.y);
         Game.ctx.rotate(this.angle);
         Game.ctx.fillRect(-this.width/2, -this.height/2, this.width, this.height);
+      Game.ctx.restore();
+    //}
+  }
+}
+class ImageGO extends GO{
+  constructor(width=10, height=10, x=0, y=0, angle=0, imageSrc){
+    super(width, height, x, y, angle)
+    this.image = new Image();
+    this.image.src = imageSrc;
+  }
+  render(){
+    //if(!(this.x > Game.canvas.width+this.hitBox || this.x < -this.hitBox || this.y > Game.canvas.height+this.hitBox || this.y < -this.hitBox)){
+
+      Game.ctx.fillStyle = this.color;
+
+      Game.ctx.save();
+        Game.ctx.translate(this.x, this.y);
+        Game.ctx.rotate(this.angle);
+        Game.ctx.drawImage(this.image, -this.width/2, -this.height/2);
       Game.ctx.restore();
     //}
   }
@@ -118,12 +137,11 @@ class armGO{
         Game.ctx.rotate(this.elbowAng);
         Game.ctx.fillRect(-this.width/2, 0, this.width, this.height);
         if(!Game.releaseCan){
-          Game.ctx.fillStyle = "green";
           Game.ctx.translate(0, this.height);
-          Game.ctx.fillRect(-Game.can.width/2, 0, Game.can.width, Game.can.height);
+          Game.ctx.drawImage(Game.can.image, -Game.can.width/2, 0);
         }
       Game.ctx.restore();
     }
   }
 }
-export {staticGO, GO, ColorGO, armGO}
+export {staticGO, GO, ColorGO, armGO, ImageGO}
