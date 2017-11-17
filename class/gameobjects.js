@@ -97,18 +97,7 @@ class armGO{
   accelerate(shoulderAcc, elbowAcc){
 
     this.shoulderSpeed += shoulderAcc;
-    this.elbowSpeed += elbowAcc;
-
-    /*if(this.shoulderSpeed > 0.2){
-      this.shoulderSpeed = 0.2;
-    } else if(this.shoulderSpeed < -0.2){
-      this.shoulderSpeed = -0.2;
-    }*/
-    /*if(this.elbowSpeed > 0.2){
-      this.elbowSpeed = 0.2;
-    } else if(this.elbowSpeed < -0.2){
-      this.elbowSpeed = -0.2;
-    }*/
+    this.elbowSpeed += elbowAcc+shoulderAcc*0.25;
 
   }
   move(){

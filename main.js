@@ -5,7 +5,9 @@ export var Game = {
   now: 0,
   then: 0,
   tSLF:0,//time since last frame
+
   pause: false,
+  score:0,
 
   ctx: null,
   canvas: null,
@@ -26,6 +28,11 @@ export var Game = {
     if(this.releaseCan){
       this.can.accelerate(0, 0, 0);
       this.can.updatePos();
+      this.score = Math.round(this.can.x/10);
+      console.log(this.score);
+      if (Math.abs(this.can.ySpeed) < 5 && this.can.y > this.ground.y - this.can.hitBox) {
+        Game.pause = true;
+      }
     }
 
     /*this.blueSquare.accelerate(0, 0, 0);
