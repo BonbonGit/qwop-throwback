@@ -41,7 +41,7 @@ class GO{
   }
   updatePos(){
     this.x += this.xSpeed * Game.tSLF;
-    this.y += this.ySpeed * Game.tSLF;
+    this.y += this.ySpeed * Game.tSLF ;
     this.angle = (this.angle + this.rotSpeed * Game.tSLF)%(Math.PI*2);
   }
 
