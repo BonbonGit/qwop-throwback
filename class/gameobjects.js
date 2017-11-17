@@ -37,7 +37,7 @@ class GO{
   accelerate(xAcc, yAcc, rotAcc){
     this.xSpeed += xAcc * Game.tSLF;
     this.ySpeed += (yAcc + Game.gravity) * Game.tSLF;
-    this.rotSpeed += rotAcc * Game.tSLF * 0.9;
+    this.rotSpeed += rotAcc * Game.tSLF;
   }
   updatePos(){
     this.x += this.xSpeed * Game.tSLF;
@@ -99,16 +99,16 @@ class armGO{
     this.shoulderSpeed += shoulderAcc;
     this.elbowSpeed += elbowAcc;
 
-    if(this.shoulderSpeed > 0.2){
+    /*if(this.shoulderSpeed > 0.2){
       this.shoulderSpeed = 0.2;
     } else if(this.shoulderSpeed < -0.2){
       this.shoulderSpeed = -0.2;
-    }
-    if(this.elbowSpeed > 0.2){
+    }*/
+    /*if(this.elbowSpeed > 0.2){
       this.elbowSpeed = 0.2;
     } else if(this.elbowSpeed < -0.2){
       this.elbowSpeed = -0.2;
-    }
+    }*/
 
   }
   move(){

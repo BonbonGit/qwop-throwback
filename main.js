@@ -46,32 +46,25 @@ export var Game = {
     this.collisions();
   },
   collisions: function(){
-    console.log(Math.floor(this.can.x-this.can.hitBox)+', '+(Math.floor(this.can.x-this.can.hitBox)+Math.round(this.can.hitBox*2))+', '+Math.round(this.can.hitBox*2) );
-    let pixelData = this.ctx.getImageData(Math.floor(this.can.x-this.can.hitBox), Math.floor(this.ground.y - 5), Math.round(this.can.hitBox*2), 5);
-    ctx.putImageData(pixelData,0,0);
+
     if(this.can.y+this.can.hitBox >= this.ground.y){
-
-
+      let startX = (this.can.x > this.canvas.width/2)?this.canvas.width/2:this.can.x;
+      startX -= this.can.hitBox;
+      let pixelData = this.ctx.getImageData(startX, Math.floor(this.ground.y - 1), this.can.hitBox*2, 1);
       let pixelCollision = false;
+
       for (let i = 3; i < pixelData.data.length; i+=4) {
-
-        pixelCollision = (pixelData.data[i] > 254);
-        //console.log(pixelCollision);
+        pixelCollision = (pixelData.data[i] != 0);
         if (pixelCollision) {
-          console.log("Sortie");
-
-          Game.pause = true;
           break;
         }
-
-
       }
       if (pixelCollision) {
 
         this.can.ySpeed = -0.9*this.can.ySpeed;
-        this.can.y = this.ground.y - 22;
+        this.can.y = this.can.y - 1;
         //console.log(this.can.angle);
-        /*if(this.can.angle <= -Math.PI/2 && this.can.angle >= -Math.PI){
+        if(this.can.angle <= -Math.PI/2 && this.can.angle >= -Math.PI){
           this.can.rotSpeed = -0.9*this.can.rotSpeed;
           if(this.can.xSpeed <= 0){
             this.can.xSpeed = -this.can.xSpeed;
@@ -81,7 +74,7 @@ export var Game = {
           if(this.can.xSpeed >= 0){
             this.can.xSpeed = -this.can.xSpeed;
           }
-        }*/
+        }
       }
     }
     //this.collision(this.blueSquare, this.greenSquare);
@@ -204,4 +197,3 @@ function events(){
     }
   });
 }
-var ctx = document.getElementById('toast').getContext('2d');
