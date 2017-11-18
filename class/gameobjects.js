@@ -1,8 +1,7 @@
 import {Game} from '../main.js';
 
-class staticGO {
+class StaticGO {
   constructor(width=10, height=10, x=0, y=0) {
-    this.type = staticGO;
     this.width = width;
     this.height = height;
     this.x = x;
@@ -22,7 +21,6 @@ class staticGO {
 }
 class GO{
   constructor(width=10, height=10, x=0, y=0, angle=0){
-    this.type = GO;
     this.width = width;
     this.height = height;
     this.x = x;
@@ -83,7 +81,7 @@ class ImageGO extends GO{
     //}
   }
 }
-class armGO{
+class ArmGO{
   constructor(){
     this.x = 200;
     this.y = 450;
@@ -133,4 +131,4 @@ class armGO{
     }
   }
 }
-export {staticGO, GO, ColorGO, armGO, ImageGO}
+export {StaticGO, GO, ColorGO, ArmGO, ImageGO}

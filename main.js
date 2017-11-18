@@ -1,13 +1,16 @@
-import {staticGO, GO, ColorGO, ImageGO, armGO} from './class/gameobjects.js';
+import {StaticGO, GO, ColorGO, ImageGO, ArmGO} from './class/gameobjects.js';
+import {Score} from './class/display.js';
 
 export var Game = {
 
   now: 0,
   then: 0,
   tSLF:0,//time since last frame
+  areaX:0,
+  areaY:0,
 
   pause: false,
-  score:0,
+  score: new Score(10,10,undefined,'grey'),
 
   ctx: null,
   canvas: null,
@@ -16,20 +19,20 @@ export var Game = {
 
   //blueSquare: new ColorGO(20, 20, 200, 50, Math.PI/4, 'blue'),
   //greenSquare: new ColorGO(20, 20, 1000, 40, Math.PI/4, 'green'),
-  ground: new staticGO(1400, 40, 0, 560),
+  ground: new StaticGO(1400, 40, 0, 560),
   can: new ImageGO(20, 40, 400, 400, 0, "images/can.png"),
   releaseCan: false,
-  arm: new armGO(),
+  arm: new ArmGO(),
   update: function(){
 
+    this.collisions();
 
     this.arm.accelerate(this.shoulderAcc, this.elbowAcc);
     this.arm.move();
     if(this.releaseCan){
       this.can.accelerate(0, 0, 0);
       this.can.updatePos();
-      this.score = Math.round(this.can.x/10);
-      console.log(this.score);
+      this.score.updateScore(Math.round(this.can.x/10)-this.arm.x/10);
       if (Math.abs(this.can.ySpeed) < 5 && this.can.y > this.ground.y - this.can.hitBox) {
         Game.pause = true;
       }
@@ -50,7 +53,8 @@ export var Game = {
     if(this.releaseCan){
       this.can.render();
     }
-    this.collisions();
+    this.score.render();
+
   },
   collisions: function(){
 
@@ -124,13 +128,16 @@ export var Game = {
     this.ctx.restore();
     this.ctx.clearRect(0, 0, 900, 600)
     this.ctx.save();
-    if(this.can.y < this.canvas.height/2){
-      this.ctx.translate(0, -this.can.y+this.canvas.height/2);
-    }
     if(this.can.x > this.canvas.width/2){
-      this.ctx.translate(-this.can.x+this.canvas.width/2, 0);
+      this.areaX = -this.can.x+this.canvas.width/2;
+      this.ctx.translate(this.areaX, 0);
       this.ground.x = this.can.x - this.ground.width/2;
     }
+    if(this.can.y < this.canvas.height/2){
+      this.areaY = -this.can.y+this.canvas.height/2;
+      this.ctx.translate(0, this.areaY);
+    }
+
     //console.log(this.can.x);
   },
   init: function(){
