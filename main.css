@@ -3,3 +3,8 @@ canvas{
   margin:auto;
   border:3px solid black;
 }
+p{
+  margin:auto;
+  width: 900;
+  text-align: justify;
+}
