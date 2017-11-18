@@ -1,6 +1,16 @@
 # qwop-throwback
 Throw it as far as you can!
 
+Commands :
+  - Use Q,W,O,P to move the arm
+  - Use space to release the can
+  - Use E to pause the game
+
+If you are using firefox and you can't play the game type "about:config" in the adress bar, search for "dom.moduleScripts.enabled" and set it to "true".
+If your using EDGE search for "Experimental JavaScript Features" preference.
+Other web browser should work, just don't use IE!
+This game is not playable on mobile devices.
+
 Working on structure and code interaction between objects //done
 
 Need to work hard on collisions //DAMN IT'S DONE
