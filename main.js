@@ -207,4 +207,6 @@ function events(){
         break;
     }
   });
+  window.onblur = function(){ Game.pause = true; }
+  window.onfocus = function(){ Game.pause = false; }
 }
