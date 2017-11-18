@@ -17,7 +17,6 @@ class Score {
     Game.ctx.fillStyle = this.color;
     Game.ctx.font = this.font;
     Game.ctx.save();
-      console.log(this.x-Game.areaX);
       Game.ctx.translate(this.x - Game.areaX, this.y - Game.areaY);
       Game.ctx.fillText(this.text + this.score, 0, this.fontHeight);
     Game.ctx.restore();

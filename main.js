@@ -97,7 +97,6 @@ export var Game = {
     let yDistP2 = Math.pow(yDist,2);
 
     if(Math.sqrt(xDistP2+yDistP2) <= a.hitBox+b.hitBox){
-      console.log(Math.sqrt(xDistP2+yDistP2));
       a.xSpeed = a.xSpeed - ((a.xSpeed-b.xSpeed)*xDist+(a.ySpeed-b.ySpeed)*yDist)/(xDistP2+yDistP2)*xDist
       a.ySpeed = a.ySpeed - ((a.xSpeed-b.xSpeed)*xDist+(a.ySpeed-b.ySpeed)*yDist)/(xDistP2+yDistP2)*yDist
       xDist = -xDist;
@@ -137,8 +136,6 @@ export var Game = {
       this.areaY = -this.can.y+this.canvas.height/2;
       this.ctx.translate(0, this.areaY);
     }
-
-    //console.log(this.can.x);
   },
   init: function(){
     events();
