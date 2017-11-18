@@ -10,6 +10,7 @@ p{
 }
 button{
   display: inline-block;
-  width: 80px;
+  width: 100px;
+  height: 60px;
   top:560px;
 }
