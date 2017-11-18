@@ -166,43 +166,43 @@ function main(){
 function events(){
   window.addEventListener('keydown', function(e) {
 
-    switch(e.keyCode){
-      case 81:
+    switch(e.key){
+      case 'q':
         Game.shoulderAcc=0.002;
         break;
-      case 87:
+      case 'w':
         Game.shoulderAcc=-0.002;
         break;
-      case 79:
+      case 'o':
         Game.elbowAcc=-0.002;
         break;
-      case 80:
+      case 'p':
         Game.elbowAcc=+0.002;
         break;
-      case 32:
+      case ' ':
         if(!Game.releaseCan){
          Game.calculateCanSpeed();
          Game.releaseCan = true;
         }
         break;
-      case 69:
+      case 'e':
         Game.pause = !Game.pause;
         break;
     }
   });
   window.addEventListener('keyup', function(e){
 
-    switch(e.keyCode){
-      case 81:
+    switch(e.key){
+      case 'q':
         Game.shoulderAcc -= Game.shoulderAcc;
         break;
-      case 87:
+      case 'w':
         Game.shoulderAcc -= Game.shoulderAcc;
         break;
-      case 79:
+      case 'o':
         Game.elbowAcc -= Game.elbowAcc;
         break;
-      case 80:
+      case 'p':
         Game.elbowAcc -= Game.elbowAcc;
         break;
     }

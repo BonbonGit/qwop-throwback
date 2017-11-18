@@ -9,9 +9,30 @@
 
       Game.init();
     </script>
+    <script>
+      function simulateKey(key){
+        let keyEvent = new KeyboardEvent('keydown', {key:key});
+        console.log(key);
+        window.dispatchEvent(keyEvent);
+      }
+      function stopKey(key){
+        let keyEvent = new KeyboardEvent('keyup', {key:key});
+        window.dispatchEvent(keyEvent);
+      }
+    </script>
   </head>
   <body>
-    <canvas id="gameArea" height="600" width="900"></canvas>
+    <canvas id="gameArea" height="600" width="900">
+
+    </canvas>
+    <p>
+      <button onmousedown="simulateKey('q')" onmouseup="stopKey('q')">Q</button>
+      <button onmousedown="simulateKey('w')" onmouseup="stopKey('w')">W</button>
+      <button onmousedown="simulateKey('e')" onmouseup="stopKey('e')">E</button>
+      <button onmousedown="simulateKey(' ')" onmouseup="stopKey(' ')">SPACE</button>
+      <button onmousedown="simulateKey('o')" onmouseup="stopKey('o')">O</button>
+      <button onmousedown="simulateKey('p')" onmouseup="stopKey('p')">P</button>
+    </p>
     <p>
       Commands : <br/>
         - Use Q,W,O,P to move the arm <br/>

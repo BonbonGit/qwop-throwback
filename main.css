@@ -8,3 +8,8 @@ p{
   width: 900px;
   text-align: justify;
 }
+button{
+  display: inline-block;
+  width: 80px;
+  top:560px;
+}
