@@ -1,6 +1,10 @@
 # qwop-throwback
 Throw it as far as you can!
 
+https://raw.githubusercontent.com/inexorgame/audioaugust/master/impacts/metallic/metallic_hit_2.flac
+https://raw.githubusercontent.com/inexorgame/audioaugust/master/impacts/metallic/metallic_hit_6.flac
+https://raw.githubusercontent.com/inexorgame/audioaugust/master/impacts/metallic/metallic_hit_7.flac
+
 Commands :
   - Use Q,W,O,P to move the arm
   - Use space to release the can

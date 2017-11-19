@@ -23,4 +23,11 @@ class Score {
 
   }
 }
+class Menu {
+  constructor() {
+
+  }
+  render(){
+  }
+}
 export {Score}
