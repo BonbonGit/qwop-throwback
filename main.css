@@ -3,14 +3,17 @@ canvas{
   margin:auto;
   border:3px solid black;
 }
-p{
+p, ul{
   margin:auto;
   width: 900px;
   text-align: justify;
 }
+ul{
+  list-style-type: none;
+}
 button{
   display: inline-block;
-  width: 100px;
+  width: 140px;
   height: 60px;
   top:560px;
 }
