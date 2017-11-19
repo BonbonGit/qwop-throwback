@@ -1,11 +1,13 @@
 import {StaticGO, GO, ColorGO, ImageGO, ArmGO} from './class/gameobjects.js';
 import {Score} from './class/display.js';
+import {Sound} from './class/sound.js';
 
 export var Game = {
 
   now: 0,
   then: 0,
   tSLF:0,//time since last frame
+
   areaX:0,
   areaY:0,
 
@@ -23,6 +25,7 @@ export var Game = {
   can: new ImageGO(20, 40, 400, 400, 0, "images/can.png"),
   releaseCan: false,
   arm: new ArmGO(),
+  sounds:[new Sound("audio/metallic_hit_2.flac"),new Sound("audio/metallic_hit_6.flac"),new Sound("audio/metallic_hit_7.flac")],
   update: function(){
 
     this.collisions();
@@ -71,6 +74,7 @@ export var Game = {
         }
       }
       if (pixelCollision) {
+        this.sounds[Math.floor(Math.random()*3)].play();
 
         this.can.ySpeed = -0.9*this.can.ySpeed;
         this.can.y = this.can.y - 1;
@@ -125,7 +129,7 @@ export var Game = {
   },
   updateGameArea: function(){
     this.ctx.restore();
-    this.ctx.clearRect(0, 0, 900, 600)
+    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height)
     this.ctx.save();
     if(this.can.x > this.canvas.width/2){
       this.areaX = -this.can.x+this.canvas.width/2;
@@ -138,13 +142,60 @@ export var Game = {
     }
   },
   init: function(){
-    events();
+    this.events();
     this.shoulderAcc = 0;
     this.elbowAcc = 0;
     this.canvas = document.getElementById('gameArea');
     this.ctx = this.canvas.getContext('2d');
     this.then = performance.now();
     main();
+  },
+  events: function(){
+    document.addEventListener('keydown', function(e) {
+
+      switch(e.key){
+        case 'q':
+          Game.shoulderAcc=0.002;
+          break;
+        case 'w':
+          Game.shoulderAcc=-0.002;
+          break;
+        case 'o':
+          Game.elbowAcc=-0.002;
+          break;
+        case 'p':
+          Game.elbowAcc=+0.002;
+          break;
+        case ' ':
+          if(!Game.releaseCan){
+           Game.calculateCanSpeed();
+           Game.releaseCan = true;
+          }
+          break;
+        case 'e':
+          Game.pause = !Game.pause;
+          break;
+      }
+    });
+    document.addEventListener('keyup', function(e){
+
+      switch(e.key){
+        case 'q':
+          Game.shoulderAcc -= Game.shoulderAcc;
+          break;
+        case 'w':
+          Game.shoulderAcc -= Game.shoulderAcc;
+          break;
+        case 'o':
+          Game.elbowAcc -= Game.elbowAcc;
+          break;
+        case 'p':
+          Game.elbowAcc -= Game.elbowAcc;
+          break;
+      }
+    });
+    window.onblur = function(){ Game.pause = true; }
+    window.onfocus = function(){ Game.pause = false; }
   }
 }
 function main(){
@@ -162,51 +213,4 @@ function main(){
 
     Game.then = Game.now;
   }
-}
-function events(){
-  window.addEventListener('keydown', function(e) {
-
-    switch(e.key){
-      case 'q':
-        Game.shoulderAcc=0.002;
-        break;
-      case 'w':
-        Game.shoulderAcc=-0.002;
-        break;
-      case 'o':
-        Game.elbowAcc=-0.002;
-        break;
-      case 'p':
-        Game.elbowAcc=+0.002;
-        break;
-      case ' ':
-        if(!Game.releaseCan){
-         Game.calculateCanSpeed();
-         Game.releaseCan = true;
-        }
-        break;
-      case 'e':
-        Game.pause = !Game.pause;
-        break;
-    }
-  });
-  window.addEventListener('keyup', function(e){
-
-    switch(e.key){
-      case 'q':
-        Game.shoulderAcc -= Game.shoulderAcc;
-        break;
-      case 'w':
-        Game.shoulderAcc -= Game.shoulderAcc;
-        break;
-      case 'o':
-        Game.elbowAcc -= Game.elbowAcc;
-        break;
-      case 'p':
-        Game.elbowAcc -= Game.elbowAcc;
-        break;
-    }
-  });
-  window.onblur = function(){ Game.pause = true; }
-  window.onfocus = function(){ Game.pause = false; }
 }
