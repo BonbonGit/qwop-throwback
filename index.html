@@ -13,11 +13,11 @@
       function simulateKey(key){
         let keyEvent = new KeyboardEvent('keydown', {key:key});
         console.log(key);
-        window.dispatchEvent(keyEvent);
+        documents.dispatchEvent(keyEvent);
       }
       function stopKey(key){
         let keyEvent = new KeyboardEvent('keyup', {key:key});
-        window.dispatchEvent(keyEvent);
+        documents.dispatchEvent(keyEvent);
       }
     </script>
   </head>
