@@ -1,9 +1,13 @@
 # qwop-throwback
 Throw it as far as you can!
 
-https://raw.githubusercontent.com/inexorgame/audioaugust/master/impacts/metallic/metallic_hit_2.flac
-https://raw.githubusercontent.com/inexorgame/audioaugust/master/impacts/metallic/metallic_hit_6.flac
-https://raw.githubusercontent.com/inexorgame/audioaugust/master/impacts/metallic/metallic_hit_7.flac
+CREDITS:
+  Sounds :
+  metallic_hit_2.flac
+  metallic_hit_6.flac
+  metallic_hit_7.flac
+  by Johannes "Hanni" Schneider (source: https://github.com/inexorgame/audioaugust), used under CC BY : https://github.com/inexorgame/audioaugust/blob/master/LICENSE
+
 
 Commands :
   - Use Q,W,O,P to move the arm
