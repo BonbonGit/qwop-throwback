@@ -74,7 +74,9 @@ export var Game = {
         }
       }
       if (pixelCollision) {
-        this.sounds[Math.floor(Math.random()*3)].play();
+        if(!this.mobile){
+          this.sounds[Math.floor(Math.random()*3)].play();
+        }
 
         this.can.ySpeed = -0.9*this.can.ySpeed;
         this.can.y = this.can.y - 1;
@@ -142,6 +144,10 @@ export var Game = {
     }
   },
   init: function(){
+    if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phone|Kindle|Silk|Opera Mini/i.test(navigator.userAgent)) {
+      this.mobile = true;
+      document.getElementById('mobileCommands').style.display = 'block';
+    }
     this.events();
     this.shoulderAcc = 0;
     this.elbowAcc = 0;
