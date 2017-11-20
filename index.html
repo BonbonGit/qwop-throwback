@@ -12,12 +12,11 @@
     <script>
       function simulateKey(key){
         let keyEvent = new KeyboardEvent('keydown', {key:key});
-        console.log(key);
-        documents.dispatchEvent(keyEvent);
+        document.dispatchEvent(keyEvent);
       }
       function stopKey(key){
         let keyEvent = new KeyboardEvent('keyup', {key:key});
-        documents.dispatchEvent(keyEvent);
+        document.dispatchEvent(keyEvent);
       }
     </script>
   </head>
