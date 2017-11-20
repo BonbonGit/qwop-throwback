@@ -3,10 +3,10 @@ Throw it as far as you can!
 
 CREDITS:
   Sounds :
-  metallic_hit_2.flac
-  metallic_hit_6.flac
-  metallic_hit_7.flac
-  by Johannes "Hanni" Schneider (source: https://github.com/inexorgame/audioaugust), used under CC BY : https://github.com/inexorgame/audioaugust/blob/master/LICENSE
+  - metallic_hit_2.flac
+  - metallic_hit_6.flac
+  - metallic_hit_7.flac
+  - by Johannes "Hanni" Schneider (source: https://github.com/inexorgame/audioaugust), used under CC BY : https://github.com/inexorgame/audioaugust/blob/master/LICENSE
 
 
 Commands :
