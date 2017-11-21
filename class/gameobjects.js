@@ -112,8 +112,6 @@ class ArmGO{
     //console.log(this.shoulderSpeed);
   }
   render(){
-    if(!(this.x > Game.canvas.width || this.x < 0 || this.y > Game.canvas.height || this.y < 0)){
-
       Game.ctx.fillStyle = "black";
 
       Game.ctx.save();
@@ -128,7 +126,6 @@ class ArmGO{
           Game.ctx.drawImage(Game.can.image, -Game.can.width/2, 0);
         }
       Game.ctx.restore();
-    }
   }
 }
 export {StaticGO, GO, ColorGO, ArmGO, ImageGO}

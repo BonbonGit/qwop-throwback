@@ -28,6 +28,7 @@ class Menu {
 
   }
   render(){
+
   }
 }
-export {Score}
+export {Score, Menu}

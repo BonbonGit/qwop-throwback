@@ -17,7 +17,7 @@ Commands :
 If you are using firefox and you can't play the game type "about:config" in the adress bar, search for "dom.moduleScripts.enabled" and set it to "true".
 If your using EDGE search for "Experimental JavaScript Features" preference.
 Other web browser should work, just don't use IE!
-This game is not playable on mobile devices.
+This game should be playable on mobile devices.
 
 Working on structure and code interaction between objects //done
 

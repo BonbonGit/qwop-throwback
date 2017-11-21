@@ -1,5 +1,5 @@
 import {StaticGO, GO, ColorGO, ImageGO, ArmGO} from './class/gameobjects.js';
-import {Score} from './class/display.js';
+import {Score, Menu} from './class/display.js';
 import {Sound} from './class/sound.js';
 
 export var Game = {
@@ -12,6 +12,7 @@ export var Game = {
   areaY:0,
 
   pause: false,
+  menu: new Menu(),
   score: new Score(10,10,undefined,'grey'),
 
   ctx: null,
@@ -40,7 +41,9 @@ export var Game = {
         Game.pause = true;
       }
     }
-
+    if(this.pause){
+      this.menu.render();
+    }
     /*this.blueSquare.accelerate(0, 0, 0);
     this.blueSquare.updatePos();
     this.greenSquare.accelerate(0, 0, 0);
@@ -63,7 +66,7 @@ export var Game = {
 
     if(this.can.y+this.can.hitBox >= this.ground.y){
       let startX = (this.can.x > this.canvas.width/2)?this.canvas.width/2:this.can.x;
-      startX -= this.can.hitBox;
+      startX -= this.can.hitBox;// + this.areaY;
       let pixelData = this.ctx.getImageData(startX, Math.floor(this.ground.y - 1), this.can.hitBox*2, 1);
       let pixelCollision = false;
 
@@ -152,8 +155,13 @@ export var Game = {
     this.shoulderAcc = 0;
     this.elbowAcc = 0;
     this.canvas = document.getElementById('gameArea');
+    //this.canvas.width = (window.innerWidth < 900)?window.innerWidth-16:900;
+    //this.canvas.height = (window.innerHeight < 600)?window.innerHeight-86:600;
     this.ctx = this.canvas.getContext('2d');
     this.then = performance.now();
+    //this.areaX = this.canvas.width - 900;;
+    //this.areaY = this.canvas.height - 600;
+    //this.ctx.translate(0, this.areaY);
     main();
   },
   events: function(){
