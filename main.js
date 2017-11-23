@@ -161,6 +161,7 @@ export var Game = {
       document.getElementById('mobileCommands').style.display = 'block';
       this.canvas.width = (window.outerWidth < 900)?window.outerWidth-16:900;
       this.canvas.height = (window.outerHeight < 600)?window.outerHeight-86:600;
+      alert(window.outerWidth + ', ' + window.outerHeight)
     }
 
     this.ctx = this.canvas.getContext('2d');
