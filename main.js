@@ -159,8 +159,8 @@ export var Game = {
     if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phone|Kindle|Silk|Opera Mini/i.test(navigator.userAgent)) {
       this.mobile = true;
       document.getElementById('mobileCommands').style.display = 'block';
-      this.canvas.width = (window.outerWidth < 900)?window.outerWidth-16:900;
-      this.canvas.height = (window.outerHeight < 600)?window.outerHeight-86:600;
+      this.canvas.width = (document.getElementById('div').style.width < 900)?document.getElementById('div').style.width-16:900;
+      this.canvas.height = (document.getElementById('div').style.height < 600)?document.getElementById('div').style.height-86:600;
     }
 
     this.ctx = this.canvas.getContext('2d');
