@@ -3,9 +3,6 @@ canvas{
   margin:auto;
   border:3px solid black;
 }
-div{
-  width: 100%;
-}
 p, ul{
   margin:auto;
   width: 900px;

@@ -21,9 +21,8 @@
     </script>
   </head>
   <body>
-    <div id="div">
-      <canvas id="gameArea" height="600" width="900"></canvas>
-    </div>
+    <canvas id="gameArea" height="600" width="900"></canvas>
+
     <p id="mobileCommands" style="display:none">
       <button ontouchstart="simulateKey('q')" ontouchend="stopKey('q')">Q</button>
       <button ontouchstart="simulateKey('w')" ontouchend="stopKey('w')">W</button>
@@ -32,12 +31,14 @@
       <button ontouchstart="simulateKey('o')" ontouchend="stopKey('o')">O</button>
       <button ontouchstart="simulateKey('p')" ontouchend="stopKey('p')">P</button>
     </p>
+
     <p>
       <button onclick="document.getElementById('credits').style.display = (document.getElementById('credits').style.display == 'none')?'block':'none';">Show/Hide CREDITS </button>
       <button onclick="document.getElementById('important').style.display = (document.getElementById('important').style.display == 'none')?'block':'none';">IMPORTANT NOTICE, SHOW</button>
       <button onclick="document.getElementById('commands').style.display = (document.getElementById('commands').style.display == 'none')?'block':'none';">Show/Hide Commands</button>
 
     </p>
+
     <ul id="credits" style="display:none">
       <li>Sounds : </li>
       <li>metallic_hit_2.flac</li>
@@ -45,12 +46,14 @@
       <li>metallic_hit_7.flac</li>
       <li>by Johannes "Hanni" Schneider <a href="https://github.com/inexorgame/audioaugust">(source)</a>, used under <a href="https://github.com/inexorgame/audioaugust/blob/master/LICENSE">CC BY</a></li>
     </ul>
+
     <p id="important" style="display:none">
       If you are using firefox and you can't play the game type "about:config" in the adress bar, search for "dom.moduleScripts.enabled" and set it to "true". <br/>
       If your using EDGE search for "Experimental JavaScript Features" preference. <br/>
       Other web browser should work, just don't use IE! <br/>
       Use the buttons to play on mobile devices.
     </p>
+    
     <p id="commands" style="display:none">
       Commands : <br/>
         - Use Q,W,O,P to move the arm <br/>
