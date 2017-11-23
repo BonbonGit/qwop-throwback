@@ -7,7 +7,7 @@
     <script type="module">
       import {Game} from './main.js';
 
-      setTimeout(Game.init(), 1);
+      window.onload = Game.init();
     </script>
     <script>
       function simulateKey(key){
