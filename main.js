@@ -22,11 +22,12 @@ export var Game = {
 
   //blueSquare: new ColorGO(20, 20, 200, 50, Math.PI/4, 'blue'),
   //greenSquare: new ColorGO(20, 20, 1000, 40, Math.PI/4, 'green'),
-  ground: new StaticGO(1400, 40, 0, 560),
-  can: new ImageGO(20, 40, 400, 400, 0, "images/can.png"),
-  releaseCan: false,
-  arm: new ArmGO(),
-  sounds:[new Sound("audio/metallic_hit_2.flac"),new Sound("audio/metallic_hit_6.flac"),new Sound("audio/metallic_hit_7.flac")],
+  ground: null,
+  can: null,
+  releaseCan: null,
+  arm: null,
+  sounds: null,
+  
   update: function(){
 
     this.collisions();
@@ -115,12 +116,12 @@ export var Game = {
     }
   },
   calculateCanSpeed: function(){
-    // COMPLETE DIS BITCH
 
     let shoulderInduced = this.arm.shoulderSpeed*this.arm.height;
     let elbowInduced = this.arm.elbowSpeed*this.arm.height;
     let thetaS = Math.PI-this.arm.shoulderAng;
     let thetaE = Math.PI-this.arm.elbowAng+thetaS;
+
     let sIx = shoulderInduced*Math.cos(thetaS);
     let sIy = -shoulderInduced*Math.sin(thetaS);
     let eIx = -elbowInduced*Math.cos(thetaE);
@@ -155,13 +156,16 @@ export var Game = {
     this.shoulderAcc = 0;
     this.elbowAcc = 0;
     this.canvas = document.getElementById('gameArea');
-    //this.canvas.width = (window.innerWidth < 900)?window.innerWidth-16:900;
-    //this.canvas.height = (window.innerHeight < 600)?window.innerHeight-86:600;
+    this.canvas.width = (window.innerWidth < 900)?window.innerWidth-16:900;
+    this.canvas.height = (window.innerHeight < 600)?window.innerHeight-86:600;
     this.ctx = this.canvas.getContext('2d');
     this.then = performance.now();
-    //this.areaX = this.canvas.width - 900;;
-    //this.areaY = this.canvas.height - 600;
-    //this.ctx.translate(0, this.areaY);
+
+    this.ground = new StaticGO(1400, 40, 0, this.canvas.height - 40);
+    this.can = new ImageGO(20, 40, 0, 600, 0, "images/can.png");
+    this.releaseCan = false;
+    this.arm = new ArmGO();
+    this.sounds = [new Sound("audio/metallic_hit_2.flac"),new Sound("audio/metallic_hit_6.flac"),new Sound("audio/metallic_hit_7.flac")];
     main();
   },
   events: function(){

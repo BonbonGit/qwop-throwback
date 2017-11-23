@@ -1,6 +1,7 @@
 import {Game} from '../main.js';
 
 class StaticGO {
+  //Attention! Y from BOTTOM!
   constructor(width=10, height=10, x=0, y=0) {
     this.width = width;
     this.height = height;
@@ -84,7 +85,7 @@ class ImageGO extends GO{
 class ArmGO{
   constructor(){
     this.x = 200;
-    this.y = 450;
+    this.y = Game.canvas.height - 150;
     this.width = 15;
     this.height = 60;
     this.shoulderAng = Math.PI/2;
