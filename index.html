@@ -7,9 +7,10 @@
     <script type="module">
       import {Game} from './main.js';
 
-      window.onload = Game.init();
+      setTimeout(start,1);
     </script>
     <script>
+      function start(){Game.init();}
       function simulateKey(key){
         let keyEvent = new KeyboardEvent('keydown', {key:key});
         document.dispatchEvent(keyEvent);
@@ -53,7 +54,7 @@
       Other web browser should work, just don't use IE! <br/>
       Use the buttons to play on mobile devices.
     </p>
-    
+
     <p id="commands" style="display:none">
       Commands : <br/>
         - Use Q,W,O,P to move the arm <br/>
