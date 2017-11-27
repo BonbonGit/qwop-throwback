@@ -27,4 +27,4 @@ Calculate can speed //done
 
 Categorize game objects, use adapted collision detection for each categories, adapt speed(direction) change in consequences //posponed
 
-Score //started
+Score //Done
