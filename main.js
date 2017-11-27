@@ -160,6 +160,7 @@ export var Game = {
       document.getElementById('mobileCommands').style.width = '100%';
       alert(this.canvas.width*2/3);
       this.canvas.style.height = this.canvas.width*2/3 + "px";
+      alert(this.canvas.style.height);
       //this.canvas.height = this.canvas.width*2/3;
     } else{
       this.canvas.width = (window.innerWidth < 900)?window.innerWidth-16:900;
