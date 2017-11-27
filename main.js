@@ -158,6 +158,8 @@ export var Game = {
       this.mobile = true;
       document.getElementById('mobileCommands').style.display = 'block';
       document.getElementById('mobileCommands').style.width = '100%';
+      this.canvas.width = 600;
+      this.canvas.style.width = "600px";
       this.canvas.height = 400;
       this.canvas.style.height = "400px";
     } else{

@@ -15,7 +15,12 @@ ul{
 }
 button{
   display: inline-block;
-  width: 10%;
   height: 60px;
   top:560px;
+}
+#mobileCommands button{
+  width: 12%;
+}
+.right{
+  float: right;
 }
