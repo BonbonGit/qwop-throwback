@@ -158,7 +158,7 @@ export var Game = {
       this.mobile = true;
       document.getElementById('mobileCommands').style.display = 'block';
       document.getElementById('mobileCommands').style.width = '100%';
-      
+      this.canvas.height = 480;
     } else{
       this.canvas.width = (window.innerWidth < 900)?window.innerWidth-16:900;
       this.canvas.height = (window.innerHeight < 600)?window.innerHeight-86:600;
