@@ -153,15 +153,16 @@ export var Game = {
     this.shoulderAcc = 0;
     this.elbowAcc = 0;
     this.canvas = document.getElementById('gameArea');
-    this.canvas.width = (window.innerWidth < 900)?window.innerWidth-16:900;
-    this.canvas.height = (window.innerHeight < 600)?window.innerHeight-86:600;
 
     if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phone|Kindle|Silk|Opera Mini/i.test(navigator.userAgent)) {
       this.mobile = true;
-      document.getElementById('mobileCommands').style.display = 'block';
-      this.canvas.width = (window.outerWidth < 900)?window.outerWidth-16:900;
-      this.canvas.height = (window.outerHeight < 600)?window.outerHeight-86:600;
-      alert(window.outerWidth + ', ' + window.outerHeight);
+      document.getElementById('mobileCommands').style.width = '100%';
+      this.canvas.height = this.canvas.width*2/3
+    } else{
+      this.canvas.width = (window.innerWidth < 900)?window.innerWidth-16:900;
+      this.canvas.height = (window.innerHeight < 600)?window.innerHeight-86:600;
+      this.canvas.style.width = (window.innerWidth < 900)?window.innerWidth-16 + "px":900 + "px";
+      this.canvas.style.height = (window.innerHeight < 600)?window.innerHeight-86 + "px":600 + "px";
     }
 
     this.ctx = this.canvas.getContext('2d');
