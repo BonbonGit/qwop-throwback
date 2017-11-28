@@ -12,11 +12,15 @@ export var Game = {
   areaY:0,
 
   pause: false,
-  menu: new Menu(),
+  restart: false,
+  menu: new Menu(30, 30),
   score: new Score(10,10,undefined,'grey'),
+  menuScore: new Score(20,40,undefined,'grey', '50px Arial'),
+  fps: new Score(720,10,'FPS : ','grey', '20px Arial'),
 
   ctx: null,
   canvas: null,
+  canvasProperties: null,
 
   gravity:120, //gravitational acceleration in px/sec
 
@@ -38,30 +42,40 @@ export var Game = {
       this.can.accelerate(0, 0, 0);
       this.can.updatePos();
       this.score.updateScore(Math.round(this.can.x/10)-this.arm.x/10);
+      this.fps.updateScore(Math.round(1/this.tSLF));
       if (Math.abs(this.can.ySpeed) < 5 && this.can.y > this.ground.y - this.can.hitBox) {
         Game.pause = true;
       }
     }
-    if(this.pause){
-      this.menu.render();
-    }
-    /*this.blueSquare.accelerate(0, 0, 0);
-    this.blueSquare.updatePos();
-    this.greenSquare.accelerate(0, 0, 0);
-    this.greenSquare.updatePos();*/
 
   },
-  render: function(){
-    this.updateGameArea();
-    //this.blueSquare.render();
-    //this.greenSquare.render();
-    this.arm.render();
-    this.ground.render();
-    if(this.releaseCan){
-      this.can.render();
-    }
-    this.score.render();
+  updateGameArea: function(){
+    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    this.ctx.save();
+      if(this.can.x > this.canvas.width/2){
+        this.areaX = -this.can.x+this.canvas.width/2;
+        this.ctx.translate(this.areaX, 0);
+        this.ground.x = this.can.x - this.ground.width/2;
+      }
+      if(this.can.y < this.canvas.height/2){
+        this.areaY = -this.can.y+this.canvas.height/2;
+        this.ctx.translate(0, this.areaY);
+      }
 
+      this.arm.render();
+      this.ground.render();
+      if(this.releaseCan){
+        this.can.render();
+      }
+    this.ctx.restore();
+    this.ctx.save();
+      this.score.render();
+      this.fps.render();
+      if(Game.pause){
+        this.menuScore.updateScore(this.score.score);
+        this.menu.render();
+      }
+    this.ctx.restore();
   },
   collisions: function(){
 
@@ -133,26 +147,11 @@ export var Game = {
     this.can.angle = this.arm.shoulderAng+this.arm.elbowAng;
     this.can.rotSpeed = -Math.sqrt(Math.pow(sIx+eIx,2)+Math.pow(sIy+eIy,2));
   },
-  updateGameArea: function(){
-    this.ctx.restore();
-    this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height)
-    this.ctx.save();
-    if(this.can.x > this.canvas.width/2){
-      this.areaX = -this.can.x+this.canvas.width/2;
-      this.ctx.translate(this.areaX, 0);
-      this.ground.x = this.can.x - this.ground.width/2;
-    }
-    if(this.can.y < this.canvas.height/2){
-      this.areaY = -this.can.y+this.canvas.height/2;
-      this.ctx.translate(0, this.areaY);
-    }
-  },
   init: function(){
 
-    this.events();
-    this.shoulderAcc = 0;
-    this.elbowAcc = 0;
     this.canvas = document.getElementById('gameArea');
+    this.canvasProperties = this.canvas.getBoundingClientRect();
+
 
     if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|BB|PlayBook|IEMobile|Windows Phone|Kindle|Silk|Opera Mini/i.test(navigator.userAgent)) {
       this.mobile = true;
@@ -169,20 +168,31 @@ export var Game = {
     }
 
     this.ctx = this.canvas.getContext('2d');
-    this.then = performance.now();
 
     this.ground = new StaticGO(1400, 40, 0, this.canvas.height - 40);
     this.can = new ImageGO(20, 40, 0, 600, 0, "images/can.png");
     this.releaseCan = false;
     this.arm = new ArmGO();
     this.sounds = [new Sound("audio/metallic_hit_2.flac"),new Sound("audio/metallic_hit_6.flac"),new Sound("audio/metallic_hit_7.flac")];
-    main();
+
+    this.arm.shoulderAcc = 0;
+    this.arm.elbowAcc = 0;
+    this.arm.shoulderSpeed = 0;
+    this.arm.elbowSpeed = 0;
+
+    if(!this.restart){
+      this.then = performance.now();
+      this.events();
+      main();
+    }
+
   },
   events: function(){
     document.addEventListener('keydown', function(e) {
 
       switch(e.key){
         case 'q':
+          console.log('lol');
           Game.shoulderAcc=0.002;
           break;
         case 'w':
@@ -203,6 +213,10 @@ export var Game = {
         case 'e':
           Game.pause = !Game.pause;
           break;
+        case 'r':
+          Game.restart = true;
+          Game.init();
+          break;
       }
     });
     document.addEventListener('keyup', function(e){
@@ -222,23 +236,24 @@ export var Game = {
           break;
       }
     });
-    window.onblur = function(){ Game.pause = true; }
-    window.onfocus = function(){ Game.pause = false; }
+    window.onblur = function(){ Game.pause = true;}
+    window.onfocus = function(){ Game.pause = false;}
   }
 }
 function main(){
-  window.requestAnimationFrame(main);
-  //time at loop start
-  Game.now = performance.now();
-  Game.tSLF = (Game.now - Game.then)/1000;
 
-  if(Game.tSLF > 16/1000){ //Aprox 60FPS
-    //console.log(1/Game.tSLF);
-    if (!Game.pause) {
-      Game.update();
-      Game.render();
-    }
+    window.requestAnimationFrame(main);
+    //time at loop start
+    Game.now = performance.now();
+    Game.tSLF = (Game.now - Game.then)/1000;
 
-    Game.then = Game.now;
-  }
+    //if(Game.tSLF > 0.0016){ //Aprox 60FPS
+      //console.log(1/Game.tSLF);
+      if (!Game.pause) {
+        Game.update();
+      }
+        Game.updateGameArea();
+
+      Game.then = Game.now;
+    //}
 }
