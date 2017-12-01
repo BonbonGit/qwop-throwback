@@ -13,6 +13,7 @@ Commands :
   - Use Q,W,O,P to move the arm
   - Use space to release the can
   - Use E to pause the game
+  - Use R to restart
 
 If you are using firefox and you can't play the game type "about:config" in the adress bar, search for "dom.moduleScripts.enabled" and set it to "true".
 If your using EDGE search for "Experimental JavaScript Features" preference.
